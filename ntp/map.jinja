@@ -50,4 +50,13 @@
     },
 } %}
 
+{% if grains['os'] == 'Debian' and grains['osmajorrelease']|int >= 13 %}
+{% do map['Debian'].update({
+    'client': 'ntpsec',
+    'service': 'ntpsec',
+    'ntp_conf': '/etc/ntpsec/ntp.conf',
+    'driftfile': '/var/lib/ntpsec/ntp.drift',
+}) %}
+{% endif %}
+
 {% set ntp = salt['grains.filter_by'](map, merge=salt['pillar.get']('ntp:lookup')) %}
