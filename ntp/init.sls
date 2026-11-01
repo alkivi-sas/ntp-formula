@@ -19,6 +19,8 @@ ntp_conf:
     - name: {{ ntp.ntp_conf }}
     - template: jinja
     - source: {{ ntp_conf_src }}
+    - defaults:
+        driftfile: {{ ntp.get('driftfile', '/var/lib/ntp/ntp.drift') }}
     - require:
       - pkg: {{ ntp.client }}
     - watch_in:
